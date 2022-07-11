@@ -4,7 +4,10 @@
   "description": "=>Installation Required:",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm start --prefix client",
+    "server": "nodemon server/server.js",
+    "dev": "concurrently \"npm run client\" \"npm run server\" "
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mailgen": "^2.0.14",
     "mongodb": "^3.6.3",
-    "mongoose": "^5.11.8",
+    "mongoose": "^6.4.4",
     "mongoose-aggregate-paginate-v2": "^1.0.42",
     "nodemailer": "^6.4.17",
     "validator": "^13.5.2"
