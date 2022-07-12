@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const Validator=require('validator');
-const { Timestamp } = require('mongodb');
+const jwt=require('jsonwebtoken')
 const userSchema=mongoose.Schema({
     email:{
         type:String,
@@ -10,7 +10,7 @@ const userSchema=mongoose.Schema({
         unique:true,
         lowercase:true,
         validate(value){
-            if(!validator.isEmail(value))
+            if(!Validator.isEmail(value))
             {
                 throw new Error('Invalid Email');
             }
@@ -42,7 +42,27 @@ const userSchema=mongoose.Schema({
     date:{
         type:Date,
         default:Date.now
+    },
+    token:{
+        type:String
     }
+},{versionKey:false})
+userSchema.pre('save',async function(next){
+    if(this.isModified('password'))
+    {
+        const hash= await bcrypt.hash(this.password,10)
+        this.password=hash
+    }
+    next();
 })
+userSchema.statics.emailTaken = async function(email){
+    const user = await this.findOne({email});
+    return !!user;
+}
+userSchema.statics.CreateToken=async function(userEmail){
+    const token=jwt.sign(userEmail,process.env.SUPERSECRET)
+    this.token=token
+    return this.token
+}
 const User=mongoose.model('User',userSchema)
 module.exports={User}

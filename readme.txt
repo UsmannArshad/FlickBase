@@ -3,7 +3,7 @@
 
 @** 1- Server install
 
-npm install accesscontrol@2.2.1 bcrypt@5.0.0 body-parser@1.19.0 dotenv@8.2.0 express@4.17.1 jsonwebtoken@8.5.1 mailgen@2.0.14 mongodb@3.6.3 mongoose mongoose-aggregate-paginate-v2@1.0.42 nodemailer@6.4.17 validator@13.5.2
+npm install accesscontrol@2.2.1 bcrypt body-parser@1.19.0 dotenv@8.2.0 express@4.17.1 jsonwebtoken@8.5.1 mailgen@2.0.14 mongodb@3.6.3 mongoose mongoose-aggregate-paginate-v2@1.0.42 nodemailer@6.4.17 validator@13.5.2
 
 @** 2- client install
 
@@ -42,3 +42,16 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             router.
             App.use('./api/user',userRouter)
             Test this route in postman
+    =>Registering User:
+            Before Registering we have to hash passwords and create webtokens
+            We'll use async so that we dont have to w8 for the response of db.
+            =>use bcrypt to hash password
+            =>use jsonwebtoken to create token for the user
+=>Problems:
+        1)__v:
+                This field is generated whenever we insert docs through mongoose.
+                The __v field is called the version key. It describes the internal revision of a document. This __v field is used to track the revisions of a document. By default, its value is zero. In real practice, the __v field increments by one only when an array is updated.
+                To hide this we can use:(not recommended)
+                mongoose.schema({attributes},{versionKey:false})
+
+              
