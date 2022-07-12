@@ -20,6 +20,7 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             in files by writing:
             require('dotenv').config()
             process.env.USERNAME(we can't update it print it etc)
+
     =>nodemon.json:
             As we know nodemon restart the server at any change in the app.Even if we change client or anyother file
             It is useleess so we can write
@@ -27,3 +28,17 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
                 "watch":["server(folder that contain server)"]
             }
             now it will restart only when something in server is changed
+    
+    =>Making routes:
+            Now we'll create different files for route not write app.get('./users') etc
+            in server file How to do it?
+            If we make different files then we dont have access to App(Express)
+            We ll use const router=Express.route then create a new route using
+            router.route('/register').post().get()
+            At the end we ll export this router
+            Import it in server.js using require('path')
+            like userRouter=require('./routes/userRoute')
+            and then whenever we get a request for the user we will go this
+            router.
+            App.use('./api/user',userRouter)
+            Test this route in postman
