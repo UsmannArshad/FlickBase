@@ -64,5 +64,13 @@ userSchema.statics.CreateToken=async function(userEmail){
     this.token=token
     return this.token
 }
+userSchema.statics.checkEmail=async function(email){
+    const user = await this.findOne({email});
+    return user;
+}
+userSchema.methods.checkPwd=async function(givenpwd,user){
+    const result=await bcrypt.compare(givenpwd,user.password)
+    return result;
+}
 const User=mongoose.model('User',userSchema)
 module.exports={User}
