@@ -60,7 +60,7 @@ userSchema.statics.emailTaken = async function(email){
     return !!user;
 }
 userSchema.statics.CreateToken=async function(userEmail){
-    const token=jwt.sign(userEmail,process.env.SUPERSECRET)
+    const token=jwt.sign({email:userEmail},process.env.SUPERSECRET,{expiresIn:'1d'})
     this.token=token
     return this.token
 }

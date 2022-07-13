@@ -1,6 +1,7 @@
 const Express = require('express')
 const router = Express.Router()
 const { User } = require('../models/user_model')
+const {checkLoggedIn}=require('../middlewares/auth')
 router.route('/register')
     .post(async (req, res) => {
         try {
@@ -33,6 +34,11 @@ router.route('/signin')
     catch(error){
         res.status(400).json({ message: 'Error', error: error })
     }
+})
+router.route('/profile')
+.get(checkLoggedIn,async(req,res)=>{
+    console.log(req.user)
+    res.status(200).send('OK')
 })
 function ShowUser(user)
 {

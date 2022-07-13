@@ -2,6 +2,7 @@
 const Express=require('express');
 const mongoose=require('mongoose')
 const bodyparser=require('body-parser')
+const {checkToken}=require('./middlewares/auth')
 require('dotenv').config()
 
 //routes
@@ -15,6 +16,7 @@ mongoose.connect(mongoURI)
 
 //MiddleWares
 App.use(bodyparser.json())
+App.use(checkToken)
 App.use("/api/users",user)
 
 App.get('/',(req,res)=>{
