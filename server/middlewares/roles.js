@@ -1,5 +1,5 @@
-const roles=require('../config/roles')
-exports.CheckPermission=function(resource,action){
+const {roles}=require('../config/roles')
+exports.CheckPermission=function(action,resource){
     return async(req,res,next)=>
     {
         try{
@@ -8,6 +8,7 @@ exports.CheckPermission=function(resource,action){
             {
                 return res.status(400).send('Permission not granted')
             }
+            res.locals.permission=per
             next()
         }
         catch(error){

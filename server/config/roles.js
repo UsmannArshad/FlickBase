@@ -11,7 +11,7 @@ let grantsObject={
     user:{
         profile:{
             'update:own':['*'],
-            'read:own':['*']
+            'read:own':['*','!password','!_id']
         }
     }
 }

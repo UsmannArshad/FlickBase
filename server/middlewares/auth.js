@@ -5,7 +5,6 @@ exports.checkToken=async(req,res,next)=>{
     try{
     if(req.headers["auth"])
     {
-        console.log("header present")
         const accessToken=req.headers["auth"]
         const email=jwt.verify(accessToken,process.env.SUPERSECRET)
         res.locals.userData=await User.findOne({email:email})

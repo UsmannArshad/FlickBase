@@ -16,7 +16,7 @@ router.route('/register')
                 password: user.password
             })
             const doc = await newUser.save();
-            res.cookie('auth', token).status(200).send(ShowUser(user))
+            res.cookie('auth', token).status(200).send(ShowUser(doc))
         }
         catch (error) {
             res.status(400).send(error)
@@ -37,17 +37,20 @@ router.route('/signin')
     }
 })
 router.route('/profile')
-.get(checkLoggedIn,CheckPermission('action','resource'),async(req,res)=>{
-    console.log(req.user)
-    res.status(200).send('OK')
+.get(checkLoggedIn,CheckPermission('readOwn','profile'),async(req,res)=>{
+    const permission=res.locals.permission
+    const user=await User.findOne({email:req.user.email})
+    res.status(200).send(permission.filter(user._doc))
 })
 function ShowUser(user)
 {
     return{
+        Id:user._id,
         Email:user.email,
         FirstName:user.firstname,
         LastName:user.lastname,
-        age:user.age
+        age:user.age,
+        role:user.role
     }
 }
 module.exports = router;

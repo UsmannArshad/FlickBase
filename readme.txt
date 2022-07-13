@@ -58,6 +58,50 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             As we r sending token from header,there may be a possibility that user no longer exist on the db
             To validate that we'll make another middleware named CheckLoggedIn it will run before getting profiles.
             Now if the token is correct we get the data of the user but user is not on db then we'll not show him profiles.
+    =>Creating and Testing roles:
+            To make roles we can use "AccessControl" library.
+            npm install accesscontrol --save
+            //First we have to create Schema like(in config file or ..):
+            const ac=require('accesscontrol')
+            let obj={
+                role(user):{
+                        resource(profile):{
+                                        actions('create:any/own'):[attributes('*',!password)]
+                        }
+                },
+                //(admin)
+            }
+            const role=new ac(obj)
+            //Then we can use it as a middleware to check wheter the current user/admin is eligible for certain puropse:
+            middleware(in middleware/roles.js):
+            const {role}=require 'config/role'
+            Make a function:see from file
+            We can get permission like:
+            const permission=roles.can(req.user.role)[action](resource)
+            if(permission.granted){
+                res.locals.permission=permission
+                next()
+            }
+            else
+            {
+                return res.status(401)
+            }
+            We will get response from a route only if the permission is granted like admin can read any profile 
+            whereas user can see its own profile only.
+            Attributes:
+            ('*','!password') for example user want to see his own profile.But we dont want user to see its id and password
+            we can simply write !password in the attribute as we r dealing in different files so we have to send permission 
+            through either next or in locals(as in code) then we can simply use
+            permission.filter(user._doc)
+            ._doc to get plain object if there is only * it means everything.
+            for example we dont want user to see earning from yt video but channel owner can see.
+            In routes file:
+            in route file we have to call middleware like:
+            routes.route('/profile')
+            .get(CheckPermission('admin','deleteOwn','profile'),(req,res)=>{
+                //it will only called when permission is granted
+            res.status(200).send(permission.filter(user._doc))
+            })
 =>Problems:
         1)__v:
                 This field is generated whenever we insert docs through mongoose.
