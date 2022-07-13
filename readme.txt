@@ -58,7 +58,6 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             As we r sending token from header,there may be a possibility that user no longer exist on the db
             To validate that we'll make another middleware named CheckLoggedIn it will run before getting profiles.
             Now if the token is correct we get the data of the user but user is not on db then we'll not show him profiles.
-            
 =>Problems:
         1)__v:
                 This field is generated whenever we insert docs through mongoose.

@@ -2,6 +2,7 @@ const Express = require('express')
 const router = Express.Router()
 const { User } = require('../models/user_model')
 const {checkLoggedIn}=require('../middlewares/auth')
+const {CheckPermission}=require('../middlewares/roles')
 router.route('/register')
     .post(async (req, res) => {
         try {
@@ -36,7 +37,7 @@ router.route('/signin')
     }
 })
 router.route('/profile')
-.get(checkLoggedIn,async(req,res)=>{
+.get(checkLoggedIn,CheckPermission('action','resource'),async(req,res)=>{
     console.log(req.user)
     res.status(200).send('OK')
 })
