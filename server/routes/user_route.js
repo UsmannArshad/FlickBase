@@ -42,6 +42,28 @@ router.route('/profile')
     const user=await User.findOne({email:req.user.email})
     res.status(200).send(permission.filter(user._doc))
 })
+.patch(checkLoggedIn,CheckPermission('updateOwn','profile'),async(req,res)=>{
+    try{
+        const user=await User.findOneAndUpdate(
+            //how to find
+            {email:req.user.email},
+            //what to update
+            {"$set":
+            {
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            age:req.body.age}},
+            //what u want to return (old/new)
+            {new:true}
+        )
+        if(!user) return res.status(400).send('User not Found')
+        res.status(200).json(user)
+    }
+    catch(error)
+    {
+        return res.status(400).json({message:"Problem updating",error:error});
+    }
+})
 function ShowUser(user)
 {
     return{

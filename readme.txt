@@ -42,13 +42,16 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             router.
             App.use('./api/user',userRouter)
             Test this route in postman
+
     =>Registering User:
             Before Registering we have to hash passwords and create webtokens
             We'll use async so that we dont have to w8 for the response of db.
             =>use bcrypt to hash password
             =>use jsonwebtoken to create token for the user
+
     =>Sign In:
            Comparing Email->Comparing Pwd->Generate Token->Send Cookies
+
     =>Validating Token:
             To check wheter token is valid or not.We will make a middleware that will run on each route.
             But if we have some token in the header of request then it will do further things.Otherwise
@@ -58,8 +61,10 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             As we r sending token from header,there may be a possibility that user no longer exist on the db
             To validate that we'll make another middleware named CheckLoggedIn it will run before getting profiles.
             Now if the token is correct we get the data of the user but user is not on db then we'll not show him profiles.
+    
     =>Creating and Testing roles:
             To make roles we can use "AccessControl" library.
+            https://onury.io/accesscontrol/
             npm install accesscontrol --save
             //First we have to create Schema like(in config file or ..):
             const ac=require('accesscontrol')

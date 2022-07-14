@@ -8,7 +8,7 @@ exports.CheckPermission=function(action,resource){
             {
                 return res.status(400).send('Permission not granted')
             }
-            res.locals.permission=per
+            res.locals.permission=permission
             next()
         }
         catch(error){
