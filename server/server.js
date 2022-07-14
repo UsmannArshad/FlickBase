@@ -7,6 +7,7 @@ require('dotenv').config()
 
 //routes
 const user=require('./routes/user_route')
+const article=require('./routes/article_route')
 
 //variables
 const App=Express();
@@ -18,6 +19,7 @@ mongoose.connect(mongoURI)
 App.use(bodyparser.json())
 App.use(checkToken)
 App.use("/api/users",user)
+App.use("/api/article",article)
 
 App.get('/',(req,res)=>{
     res.status(200).send("Server");

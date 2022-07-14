@@ -25,6 +25,7 @@ exports.checkLoggedIn=async(req,res,next)=>
 {
     const user=res.locals.userData
     if(!user)return res.status(401).json({error:"No!User Please Login"})
+    console.log(user)
     req.user=user
     next()
 }

@@ -6,6 +6,12 @@ let grantsObject={
             'update:any':['*'],
             'delete:any':['*'],
             'read:any':['*']
+        },
+        article:{
+            'create:any':['*'],
+            'update:any':['*'],
+            'delete:any':['*'],
+            'read:any':['*']
         }
     },
     user:{
@@ -13,6 +19,7 @@ let grantsObject={
             'update:own':['*'],
             'read:own':['*','!password','!_id']
         }
+        //everyone can read articles no roles required
     }
 }
 const roles=new accesscontrol(grantsObject);
