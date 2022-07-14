@@ -64,6 +64,30 @@ router.route('/profile')
         return res.status(400).json({message:"Problem updating",error:error});
     }
 })
+router.route('/updateemail')
+.patch(checkLoggedIn,CheckPermission('updateOwn','profile'),async(req,res)=>{
+    try{
+        if(await User.emailTaken(req.body.newemail))
+        {
+            return res.status(400).json({message:"email already exist"})
+        }
+        const user=await User.findOneAndUpdate(
+            {email:req.body.email},
+            {"$set":{
+                email:req.body.newemail
+            }},
+            {new:true}
+        )
+        console.log(user)
+        if(!user) res.status(400).send('User not found')
+        const token = await User.CreateToken(user.email)
+        res.cookie('auth', token).status(200).send(ShowUser(user))
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).json({message:"Error While updating",error:error})
+    }
+})
 function ShowUser(user)
 {
     return{
