@@ -3,6 +3,7 @@ const {article} = require('../models/article_model');
 const Router=Express.Router();
 const {checkLoggedIn} =require('../middlewares/auth')
 const {CheckPermission}=require('../middlewares/roles');
+const {sortArgshelper}=require('../config/helper')
 const mongoose=require('mongoose')
 Router.route('/addarticle')
 .post(checkLoggedIn,CheckPermission('createAny','article'),async(req,res)=>{
@@ -71,9 +72,24 @@ Router.route('/getbyid/:id')
         const id=mongoose.Types.ObjectId(req.params.id.trim())
         console.log(id)
         const article1=await article.find({_id:id,status:"public"})
-        console.log(article1)
         if(!article1||article1.length===0) return res.status(400).send("Article not found")
         res.status(200).send(article1)
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).json({message:'Error Getting article',error:error})
+    }
+})
+Router.route('/loadmore')
+.post(async(req,res)=>{
+    try{
+        const sortArgs=sortArgshelper(req.body)
+        const articles=await article.find({status:"public"})
+        .sort([[sortArgs.sortby,sortArgs.order]])
+        .skip(sortArgs.skip)
+        .limit(sortArgs.limit)
+        console.log(articles)
+        res.status(200).json(articles)
     }
     catch(error){
         console.log(error)
