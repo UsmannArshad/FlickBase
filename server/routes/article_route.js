@@ -62,7 +62,22 @@ Router.route('/:id')
     catch(error)
     {
         console.log(error)
-        res.status(400),json({message:'Error Deleting',error:error})
+        res.status(400).json({message:'Error Deleting',error:error})
+    }
+})
+Router.route('/getbyid/:id')
+.get(async(req,res)=>{
+    try{   
+        const id=mongoose.Types.ObjectId(req.params.id.trim())
+        console.log(id)
+        const article1=await article.find({_id:id,status:"public"})
+        console.log(article1)
+        if(!article1||article1.length===0) return res.status(400).send("Article not found")
+        res.status(200).send(article1)
+    }
+    catch(error){
+        console.log(error)
+        res.status(400).json({message:'Error Getting article',error:error})
     }
 })
 module.exports=Router
