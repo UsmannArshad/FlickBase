@@ -153,6 +153,20 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
             We can use search feature in our using regular expression like:
             {$match:{title:{$regex:/Lorem/}}}
 
+        ...............................Client Side..................................
+        =>MaterialUI:
+            Material UI is an open-source React component library that implements Google's Material Design
+            npm install @mui/material @emotion/react @emotion/styled
+        =>Google Font Loader:
+            This is a really simple component that can automatically handle loading Google fonts for you.
+            npm install --save react-google-font-loader
+            We can use it in component like:
+            <GoogleFontLoader
+            fonts={[
+            {font:'Roboto',weights:[300,400,900]},
+            {font:'Fredoka One'}
+            ]}/>
+            <p style={{fontFamily:'Roboto'}}>Hello</p>
 =>Problems:
         1)__v:
                 This field is generated whenever we insert docs through mongoose.
