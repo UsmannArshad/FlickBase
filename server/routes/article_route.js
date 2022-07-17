@@ -66,6 +66,24 @@ Router.route('/:id')
         res.status(400).json({message:'Error Deleting',error:error})
     }
 })
+Router.route('/paginate')
+.post(checkLoggedIn,CheckPermission('readAny','article'),async(req,res)=>{
+    try{
+        const options = {
+            page: req.body.page,
+            limit: req.body.limit,
+            sort:{_id:'desc'}
+        };
+        const myaggregate=article.aggregate()
+        const articles=await article.aggregatePaginate(myaggregate,options)
+        res.status(200).json(articles)
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(400).json({message:"error getting articles",error:error})
+    }
+})
 Router.route('/getbyid/:id')
 .get(async(req,res)=>{
     try{   

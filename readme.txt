@@ -107,6 +107,52 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
                 //it will only called when permission is granted
             res.status(200).send(permission.filter(user._doc))
             })
+   =>Load More(Pagination manually):
+            We can manually get data in different way form db like:
+            Mymodel.find({status:"public"})
+            .sort([['_id','asc']])
+            .limit(req.body.limit)
+            .skip(req.body.skip)
+   =>Pagination:
+            We can do pagination manually like we did in the above section.But we can use
+            built in plugin of mongoose 
+            mongoose-aggregate-paginate-v2
+            custom aggregate pagination library for Mongoose with customizable labels
+            We can use it with model and schema
+            Usage:
+            const aggregatePaginate=require('mongoose-aggergate-paginate-v2')
+            mySchema.plugin(aggregatePaginate)
+            and then while using this model:
+             const options = {
+            page: req.body.page,
+            limit: req.body.limit,
+            sort:{_id:'desc'}
+            };
+            var aggregate=Mymodel.aggregate() if not instruction is passed it will get all articles
+            const articles=Mymodel.aggregatePaginate(aggregate,options)
+            Return:We'll not only get the get the limited articles sorted by id in descending order
+            but also some extra properties that can be very useful like:
+            {
+                "docs":[{article1},{article2}...],
+                "totalDocs": 10,
+                "limit": 5,
+                "page": 1,
+                "totalPages": 2,
+                "pagingCounter": 1,
+                "hasPrevPage": false,
+                "hasNextPage": true,
+                "prevPage": null,
+                "nextPage": 2
+            }
+            What if we want only articles that are public:
+            var aggregate=Mymodel.aggregate(
+                [
+                        {$match:{status:""public}},
+                ]
+            )
+            We can use search feature in our using regular expression like:
+            {$match:{title:{$regex:/Lorem/}}}
+
 =>Problems:
         1)__v:
                 This field is generated whenever we insert docs through mongoose.

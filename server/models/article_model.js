@@ -1,4 +1,5 @@
 const mongoose=require('mongoose')
+var aggregatePaginate = require('mongoose-aggregate-paginate-v2')
 const articleSchema=mongoose.Schema({
     title:{
         type:String,
@@ -46,5 +47,6 @@ const articleSchema=mongoose.Schema({
         default: Date.now
     }
 })
+articleSchema.plugin(aggregatePaginate)
 const article=mongoose.model('article',articleSchema)
 module.exports={article}      
