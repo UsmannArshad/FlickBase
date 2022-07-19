@@ -172,6 +172,6 @@ react-moment@1.1.1 react-redux@7.2.2 react-router-bootstrap@0.25.0 react-router-
                 This field is generated whenever we insert docs through mongoose.
                 The __v field is called the version key. It describes the internal revision of a document. This __v field is used to track the revisions of a document. By default, its value is zero. In real practice, the __v field increments by one only when an array is updated.
                 To hide this we can use:(not recommended)
-                mongoose.schema({attributes},{versionKey:false})
+                mongoose.schema({attributes},{versionKey:false}).
 
               
